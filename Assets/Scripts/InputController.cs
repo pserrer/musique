@@ -137,7 +137,8 @@ public class InputController : MonoBehaviour
 			var note = new MelodyNote(midiNote.Letter, midiNote.Accidental)
 			{
 				Start = _currentMelody.Start,
-				Octave = octave
+				Octave = octave,
+				Note = midiNote
 			};
 
 			var system = (ParticleSystem) Instantiate(DefaultSystem, Vector3.zero, Quaternion.identity);
