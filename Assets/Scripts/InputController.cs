@@ -11,9 +11,7 @@ public class InputController : MonoBehaviour
 	private readonly Dictionary<int, MelodyNote> _activeNotes = new Dictionary<int, MelodyNote>();
 
 	public Melody _currentMelody;
-	private readonly List<Melody> _melodies = new List<Melody>();
 	private float _lastInput;
-	private MelodyNote _lastNote;
 
 	public float SilenceBetweenMelodies = 8; // Seconds
 	public float MaxTimeBetweenNotesForChord = 0.05f;
@@ -24,7 +22,6 @@ public class InputController : MonoBehaviour
 	{
 
 		_keys = Enumerable.Range((int)KeyCode.A, 26).Select(x => (KeyCode)x);
-		_currentMelody = new Melody {Start = Time.time};
 
 		MidiMaster.noteOnDelegate += (channel, midiNote, velocity) =>
 		{
@@ -70,13 +67,6 @@ public class InputController : MonoBehaviour
 
 		note.Duration = Time.time - note.Start;
 		_activeNotes.Remove(note.GetHashCode());
-
-		var chord = _lastNote as MelodyChord;
-		if (chord != null)
-		{
-			// set end time of chord
-			chord.Duration = Time.time - chord.Start;
-		}
 	}
 
 	private void NoteDown(MelodyNote note)
@@ -92,40 +82,7 @@ public class InputController : MonoBehaviour
 		{
 			note.Start = Time.time - _currentMelody.Start;
 			_activeNotes.Add(note.GetHashCode(), note);
-
-			// Group Notes into chord
-			if (_lastNote != null)
-			{
-				var chord = _lastNote as MelodyChord;
-				if (Time.time - _lastNote.Start < MaxTimeBetweenNotesForChord)
-				{
-					if (chord == null)
-					{
-						chord = new MelodyChord()
-						{
-							Start = _lastNote.Start
-						};
-						// replace last entry with chord
-						_currentMelody.Notes.Remove(_lastNote);
-						_currentMelody.Notes.Add(chord);
-
-						// add first note to chord
-						chord.AddNote(_lastNote);
-					}
-					chord.AddNote(note);
-					_lastNote = chord;
-				}
-				else
-				{
-					_currentMelody.Notes.Add(note);
-					_lastNote = note;
-				}
-			}
-			else
-			{
-				_currentMelody.Notes.Add(note);
-				_lastNote = note;
-			}
+			_currentMelody.Notes.Add(note);
 		}
 	}
 
@@ -135,6 +92,6 @@ public class InputController : MonoBehaviour
 		{
 			Start = Time.time
 		};
-		_melodies.Add(_currentMelody);
+		ParticleController.NewMelody(_currentMelody);
 	}
 }
