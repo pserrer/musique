@@ -15,7 +15,8 @@ public class InputController : MonoBehaviour
 
 	public float SilenceBetweenMelodies = 8; // Seconds
 	public float MaxTimeBetweenNotesForChord = 0.05f;
-	
+
+	public ParticleController ParticleController;
 
 	// Use this for initialization
 	void Start()
@@ -36,6 +37,7 @@ public class InputController : MonoBehaviour
 			NoteUp(midiNote);
 		};
 
+		StartNewMelody();
 	}
 
 
@@ -47,13 +49,21 @@ public class InputController : MonoBehaviour
 			// Keyboard Down
 			if (Input.GetKeyDown(keyCode))
 			{
-				NoteDown(MelodyNote.FromKeyCode(keyCode));
+				var note = MelodyNote.FromKeyCode(keyCode);
+				if (note != null)
+				{
+					NoteDown(note);
+				}
 			}
 
 			// Keyboard Up
 			if (Input.GetKeyUp(keyCode))
 			{
-				NoteUp(MelodyNote.FromKeyCode(keyCode));
+				var note = MelodyNote.FromKeyCode(keyCode);
+				if (note != null)
+				{
+					NoteUp(note);
+				}
 			}
 		}
 	}

@@ -118,8 +118,7 @@ namespace Assets.Scripts
 					return new MelodyNote('B');
 			}
 
-			// Invalid Input
-			throw new Exception();
+			return null;
 		}
 	}
 }
