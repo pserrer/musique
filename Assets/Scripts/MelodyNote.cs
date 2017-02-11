@@ -7,24 +7,18 @@ namespace Assets.Scripts
 	public class MelodyNote
 	{
 		public const int DefaultOctave = 4;
+        public char Letter { get; set; }
+        public int Accidental { get; set; }
+        public int Octave { get; set; }
+        public float Start { get; set; }
+        public float Duration { get; set; }
+        public float Velocity { get; set; }
 
-		public char Letter { get; set; }
-
-		public int Accidental { get; set; }
-
-		public int Octave { get; set; }
-
-		public float Start { get; set; }
-
-		public float Duration { get; set; }
-
-		public float Velocity { get; set; }
-
-		public MelodyNote(char letter, int accidental = 0, int octave = DefaultOctave)
+        public MelodyNote(char letter, int accidental = 0, int octave = DefaultOctave)
 		{
-			Letter = letter;
-			Accidental = accidental;
-			Octave = octave;
+			this.Letter = letter;
+			this.Accidental = accidental;
+			this.Octave = octave;
 		}
 
 		public MelodyNote() { }

@@ -14,7 +14,7 @@ public class ParticleController : MonoBehaviour
 	public float Radius = 20f;
 
 	private List<ParticleTarget> _targets;
-	private List<Melody> _melodies;
+	public List<Melody> _melodies;
 
 	// Use this for initialization
 	void Start () {
@@ -35,10 +35,10 @@ public class ParticleController : MonoBehaviour
 		
 	}
 
-	public void NewMelody(Melody melody)
+	public void AddMelody(Melody melody)
 	{
 		_melodies.Add(melody);
-
+        melody.Analyze();
 		if (_melodies.Count > TargetCount)
 		{
 			_melodies.RemoveAt(0);

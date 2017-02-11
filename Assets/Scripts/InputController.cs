@@ -59,8 +59,9 @@ public class InputController : MonoBehaviour
 			// Keyboard Up
 			if (Input.GetKeyUp(keyCode))
 			{
-				var note = MelodyNote.FromKeyCode(keyCode);
-				if (note != null)
+                MelodyNote note;
+                _activeNotes.TryGetValue(MelodyNote.FromKeyCode(keyCode).GetHashCode(), out note);
+                if (note != null)
 				{
 					NoteUp(note);
 				}
@@ -75,33 +76,40 @@ public class InputController : MonoBehaviour
 			return;
 		}
 
-		note.Duration = Time.time - note.Start;
-		_activeNotes.Remove(note.GetHashCode());
-	}
+		note.Duration = Time.time - note.Start - _currentMelody.Start;
+        _activeNotes.Remove(note.GetHashCode());
+        Invoke("StartNewMelody", SilenceBetweenMelodies);
+    }
 
 	private void NoteDown(MelodyNote note)
 	{
-		// Start a new Melody, because pause was long enough
-		if (Time.time - _lastInput > SilenceBetweenMelodies)
-		{
-			StartNewMelody();
-		}
+        CancelInvoke("StartNewMelody");
 
-		_lastInput = Time.time;
+        _lastInput = Time.time;
 		if (!_activeNotes.ContainsKey(note.GetHashCode()))
 		{
-			note.Start = Time.time - _currentMelody.Start;
-			_activeNotes.Add(note.GetHashCode(), note);
+            if (!_currentMelody.IsEmpty)
+                note.Start = Time.time - _currentMelody.Start;
+            else
+            {
+                note.Start = 0;
+                _currentMelody.Start = Time.time;
+            }
+            _activeNotes.Add(note.GetHashCode(), note);
 			_currentMelody.Notes.Add(note);
 		}
 	}
 
 	private void StartNewMelody()
 	{
-		_currentMelody = new Melody
+        if (!_currentMelody.IsEmpty)
+        {
+            _currentMelody.IsFinished = true;
+            ParticleController.AddMelody(_currentMelody);
+        }
+        _currentMelody = new Melody
 		{
 			Start = Time.time
 		};
-		ParticleController.NewMelody(_currentMelody);
 	}
 }
