@@ -9,8 +9,9 @@ public class ParticleController : MonoBehaviour
 	public Vector3 Center;
 	public Vector3 ParticleOffset;
 
-	public ParticleTarget ParticleTarget;
-	public int TargetCount = 5;
+    public ParticleTarget ParticleTarget;
+    private int _targetCount = 0;
+	public int MaxTargetCount = 5;
 	public float Radius = 20f;
 
 	private List<ParticleTarget> _targets;
@@ -21,9 +22,9 @@ public class ParticleController : MonoBehaviour
 		_targets = new List<ParticleTarget>();
 		_melodies = new List<Melody>();
 
-		for (var i = 0; i < TargetCount; i++)
+		for (var i = 0; i < MaxTargetCount; i++)
 		{
-			var angle = ((float)i)/TargetCount*360;
+			var angle = ((float)i)/MaxTargetCount*360;
 			var position = Center + Quaternion.AngleAxis(angle, Vector3.up) * (Vector3.forward*Radius) + ParticleOffset;
 			var target = (ParticleTarget) Instantiate(ParticleTarget, position, Quaternion.AngleAxis(angle, Vector3.up));
 			_targets.Add(target);
@@ -35,13 +36,10 @@ public class ParticleController : MonoBehaviour
 		
 	}
 
-	public void AddMelody(Melody melody)
-	{
-		_melodies.Add(melody);
+    public void AddMelody(Melody melody)
+    {
         melody.Analyze();
-		if (_melodies.Count > TargetCount)
-		{
-			_melodies.RemoveAt(0);
-		}
-	}
+        _targets[_targetCount++].setMelody(melody);
+        _targetCount %= MaxTargetCount;
+    }
 }
