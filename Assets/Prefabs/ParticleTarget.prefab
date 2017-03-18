@@ -51,7 +51,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011381253688}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -69,7 +69,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -94,6 +94,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aef5783f609dcf45b0b4be34a34e4de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  melody:
+    Notes: []
+    IsFinished: 0
+    Duration: 0
+    AverageMidiNote: 0
 --- !u!135 &135000013503871458
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -166,7 +171,7 @@ ParticleSystem:
     serializedVersion: 3
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -205,7 +210,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 5
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -614,7 +619,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
   ShapeModule:
-    serializedVersion: 2
+    serializedVersion: 3
     enabled: 1
     type: 4
     radius: 1
@@ -630,15 +635,17 @@ ParticleSystem:
     m_SkinnedMeshRenderer: {fileID: 0}
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
+    m_MeshScale: 1
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
     alignToDirection: 0
-    randomDirection: 0
+    randomDirectionAmount: 0
+    sphericalDirectionAmount: 0
   EmissionModule:
     enabled: 1
     serializedVersion: 3
     rateOverTime:
-      scalar: 10
+      scalar: 15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -715,7 +722,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
       minMaxState: 0
-    m_CombineMode: 0
     cnt0: 30
     cnt1: 30
     cnt2: 30
@@ -2744,6 +2750,7 @@ ParticleSystem:
       minMaxState: 0
 --- !u!199 &199000011937999372
 ParticleSystemRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -2755,7 +2762,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a70a0037d52b94c1b894251d49d6a9b1, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -2767,7 +2774,7 @@ ParticleSystemRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 1
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -2785,6 +2792,7 @@ ParticleSystemRenderer:
   m_NormalDirection: 1
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
+  m_UseCustomVertexStreams: 0
   m_VertexStreamMask: 27
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
