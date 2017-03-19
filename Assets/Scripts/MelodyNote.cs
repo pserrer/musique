@@ -133,7 +133,7 @@ namespace Assets.Scripts
 				case KeyCode.U:
 					return new MelodyNote('A', 1);
 				case KeyCode.J:
-					return new MelodyNote('B');
+					return new MelodyNote('B', 0, 10);
 			}
 
 			return null;

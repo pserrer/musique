@@ -32,10 +32,25 @@ namespace Assets.Scripts
             {
                 SumOfNoteDurations += note.Duration;
                 SumOfMidiNotes += note.Duration * note.getMidiNote();
-                Debug.Log("Note: " + note.Letter + " Oktave: " + note.Octave + " von " + note.Start + " - " + (note.Start + note.Duration) + " mit Stärke: " + note.Velocity);
+                Debug.Log("Note: " + note.getMidiNote() + " von " + note.Start + " - " + (note.Start + note.Duration) + " mit Stärke: " + note.Velocity);
             }
             this.AverageMidiNote = SumOfMidiNotes / SumOfNoteDurations;
             Debug.Log("AverageMidiNote: " + this.AverageMidiNote);
+        }
+
+        public float getAverageMidiNoteLastSeconds(float duration, float time)
+        {
+            float MidiNoteSum = 0;
+            List<MelodyNote> FilteredList = Notes.FindAll(x => x.Start < time && x.Start + x.Duration > time - duration);
+            string NoteStarts = "";
+            foreach (MelodyNote Note in FilteredList)
+            {
+                NoteStarts += Note.Start.ToString() + ", ";
+                MidiNoteSum += Note.getMidiNote();
+            }
+            if (NoteStarts != "")
+                Debug.Log("NoteStarts: " + NoteStarts);
+            return MidiNoteSum / FilteredList.Count;
         }
 	}
 }
