@@ -33,29 +33,29 @@ namespace Assets.Scripts
 		{
 			if (ReferenceEquals(null, obj)) return false;
 			if (ReferenceEquals(this, obj)) return true;
-			if (obj.GetType() != this.GetType()) return false;
+			if (obj.GetType() != GetType()) return false;
 			return Equals((MelodyNote) obj);
 		}
 
-        public int getMidiNote()
+        public int GetMidiNote()
         {
-            int MidiNote = 12 * this.Octave;
-            switch (this.Letter)
+            var midiNote = 12 * this.Octave;
+            switch (Letter)
             {
                 case 'C':
-                    return MidiNote + 0 + Accidental;
+                    return midiNote + 0 + Accidental;
                 case 'D':
-                    return MidiNote + 2 + Accidental;
+                    return midiNote + 2 + Accidental;
                 case 'E':
-                    return MidiNote + 4 + Accidental;
+                    return midiNote + 4 + Accidental;
                 case 'F':
-                    return MidiNote + 5 + Accidental;
+                    return midiNote + 5 + Accidental;
                 case 'G':
-                    return MidiNote + 7 + Accidental;
+                    return midiNote + 7 + Accidental;
                 case 'A':
-                    return MidiNote + 9 + Accidental;
+                    return midiNote + 9 + Accidental;
                 case 'B':
-                    return MidiNote + 11 + Accidental;
+                    return midiNote + 11 + Accidental;
             }
             throw new Exception("Invalid Note");
         }

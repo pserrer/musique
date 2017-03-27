@@ -1,32 +1,37 @@
 ﻿using Assets.Scripts;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ParticleTarget : MonoBehaviour {
-    public Melody melody;
-    private ParticleSystem ps;
-    private ParticleSystem.MainModule ma;
-    private float time;
+    private Melody _melody;
+    private ParticleSystem _particleSystem;
+    private ParticleSystem.MainModule _mainModule;
 
     // Use this for initialization
     void Start () {
-        this.ps = GetComponent<ParticleSystem>();
-        this.ma = this.ps.main;
+        _particleSystem = GetComponent<ParticleSystem>();
+        _mainModule = this._particleSystem.main;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        this.time = Time.time % melody.Duration;
+		if (_melody == null)
+		{
+			return;
+		}
 
-        float averageMidiNoteForLastSeconds = melody.getAverageMidiNoteLastSeconds(0, this.time);
-        Color Color = Color.HSVToRGB(averageMidiNoteForLastSeconds / 127, 1, 1);
-        this.ma.startColor = Color;
+        var time = Time.time % _melody.Duration;
+        var averageMidiNoteForLastSeconds = _melody.GetAverageMidiNoteLastSeconds(0, time);
+        var color = Color.HSVToRGB(averageMidiNoteForLastSeconds / 127, 1, 1);
+        _mainModule.startColor = color;
     }
 
-    public void setMelody(Melody melody)
+    public Melody Melody
     {
-        this.melody = melody;
-        this.ma.startLifetime = 1f;
+	    get { return _melody; }
+	    set
+	    {
+		    _melody = value;
+		    this._mainModule.startLifetime = 1f;
+	    }
     }
 }

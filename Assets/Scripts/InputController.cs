@@ -10,8 +10,7 @@ public class InputController : MonoBehaviour
 	private IEnumerable<KeyCode> _keys;
 	private readonly Dictionary<int, MelodyNote> _activeNotes = new Dictionary<int, MelodyNote>();
 
-	public Melody _currentMelody;
-	private float _lastInput;
+	public Melody CurrentMelody;
 
 	public float SilenceBetweenMelodies = 8; // Seconds
 	public float MaxTimeBetweenNotesForChord = 0.05f;
@@ -46,24 +45,25 @@ public class InputController : MonoBehaviour
 	{
 		foreach (var keyCode in _keys)
 		{
+			var note = MelodyNote.FromKeyCode(keyCode);
+			if (note == null)
+			{
+				continue;
+			}
 			// Keyboard Down
 			if (Input.GetKeyDown(keyCode))
 			{
-				var note = MelodyNote.FromKeyCode(keyCode);
-				if (note != null)
-				{
-					NoteDown(note);
-				}
+				NoteDown(note);
 			}
 
 			// Keyboard Up
 			if (Input.GetKeyUp(keyCode))
 			{
-                MelodyNote note;
-                _activeNotes.TryGetValue(MelodyNote.FromKeyCode(keyCode).GetHashCode(), out note);
-                if (note != null)
+				MelodyNote activeNote;
+                _activeNotes.TryGetValue(note.GetHashCode(), out activeNote);
+                if (activeNote != null)
 				{
-					NoteUp(note);
+					NoteUp(activeNote);
 				}
 			}
 		}
@@ -76,7 +76,7 @@ public class InputController : MonoBehaviour
 			return;
 		}
 
-		note.Duration = Time.time - note.Start - _currentMelody.Start;
+		note.Duration = Time.time - note.Start - CurrentMelody.Start;
         _activeNotes.Remove(note.GetHashCode());
         Invoke("StartNewMelody", SilenceBetweenMelodies);
     }
@@ -85,29 +85,28 @@ public class InputController : MonoBehaviour
 	{
         CancelInvoke("StartNewMelody");
 
-        _lastInput = Time.time;
 		if (!_activeNotes.ContainsKey(note.GetHashCode()))
 		{
-            if (!_currentMelody.IsEmpty)
-                note.Start = Time.time - _currentMelody.Start;
+            if (!CurrentMelody.IsEmpty)
+                note.Start = Time.time - CurrentMelody.Start;
             else
             {
                 note.Start = 0;
-                _currentMelody.Start = Time.time;
+                CurrentMelody.Start = Time.time;
             }
             _activeNotes.Add(note.GetHashCode(), note);
-			_currentMelody.Notes.Add(note);
+			CurrentMelody.Notes.Add(note);
 		}
 	}
 
 	private void StartNewMelody()
 	{
-        if (!_currentMelody.IsEmpty)
+        if (!CurrentMelody.IsEmpty)
         {
-            _currentMelody.IsFinished = true;
-            ParticleController.AddMelody(_currentMelody);
+            CurrentMelody.IsFinished = true;
+            ParticleController.AddMelody(CurrentMelody);
         }
-        _currentMelody = new Melody
+        CurrentMelody = new Melody
 		{
 			Start = Time.time
 		};

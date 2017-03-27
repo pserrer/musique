@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
 
@@ -10,23 +9,23 @@ public class ParticleController : MonoBehaviour
 	public Vector3 ParticleOffset;
 
     public ParticleTarget ParticleTarget;
-    private int _targetCount = 0;
+    private int _targetCount;
 	public int MaxTargetCount = 5;
 	public float Radius = 20f;
 
 	private List<ParticleTarget> _targets;
-	public List<Melody> _melodies;
+	public List<Melody> Melodies;
 
 	// Use this for initialization
 	void Start () {
 		_targets = new List<ParticleTarget>();
-		_melodies = new List<Melody>();
+		Melodies = new List<Melody>();
 
 		for (var i = 0; i < MaxTargetCount; i++)
 		{
 			var angle = ((float)i)/MaxTargetCount*360;
 			var position = Center + Quaternion.AngleAxis(angle, Vector3.up) * (Vector3.forward*Radius) + ParticleOffset;
-			var target = (ParticleTarget) Instantiate(ParticleTarget, position, Quaternion.AngleAxis(angle, Vector3.up));
+			var target = Instantiate(ParticleTarget, position, Quaternion.AngleAxis(angle, Vector3.up));
 			_targets.Add(target);
 		}
 	}
@@ -39,7 +38,7 @@ public class ParticleController : MonoBehaviour
     public void AddMelody(Melody melody)
     {
         melody.Analyze();
-        _targets[_targetCount++].setMelody(melody);
+        _targets[_targetCount++].Melody = melody;
         _targetCount %= MaxTargetCount;
     }
 }

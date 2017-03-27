@@ -9,7 +9,7 @@ namespace Assets.Scripts
 	{
 		public List<MelodyNote> Notes = new List<MelodyNote>();
         public bool IsFinished = false;
-        public float Duration = 0f;
+        public float Duration;
         public float AverageMidiNote;
 
 		public bool IsEmpty
@@ -21,36 +21,40 @@ namespace Assets.Scripts
 
         public void Analyze()
         {
-            MelodyNote LastNote = Notes[Notes.Count-1];
-            MelodyNote FirstNote = Notes[0];
-            this.Duration = LastNote.Start + LastNote.Duration;
-            Debug.Log("Dauer der Melodie : " + this.Duration);
+	        if (IsEmpty)
+	        {
+		        return;
+	        }
 
-            float SumOfMidiNotes = 0f;
-            float SumOfNoteDurations = 0f;
-            foreach (MelodyNote note in Notes)
+            var lastNote = Notes[Notes.Count-1];
+	        Duration = lastNote.Start + lastNote.Duration;
+            Debug.Log("Dauer der Melodie : " + Duration);
+
+            var sumOfMidiNotes = 0f;
+            var sumOfNoteDurations = 0f;
+            foreach (var note in Notes)
             {
-                SumOfNoteDurations += note.Duration;
-                SumOfMidiNotes += note.Duration * note.getMidiNote();
-                Debug.Log("Note: " + note.getMidiNote() + " von " + note.Start + " - " + (note.Start + note.Duration) + " mit Stärke: " + note.Velocity);
+                sumOfNoteDurations += note.Duration;
+                sumOfMidiNotes += note.Duration * note.GetMidiNote();
+                Debug.Log("Note: " + note.GetMidiNote() + " von " + note.Start + " - " + (note.Start + note.Duration) + " mit Stärke: " + note.Velocity);
             }
-            this.AverageMidiNote = SumOfMidiNotes / SumOfNoteDurations;
-            Debug.Log("AverageMidiNote: " + this.AverageMidiNote);
+            AverageMidiNote = sumOfMidiNotes / sumOfNoteDurations;
+            Debug.Log("AverageMidiNote: " + AverageMidiNote);
         }
 
-        public float getAverageMidiNoteLastSeconds(float duration, float time)
+        public float GetAverageMidiNoteLastSeconds(float duration, float time)
         {
-            float MidiNoteSum = 0;
-            List<MelodyNote> FilteredList = Notes.FindAll(x => x.Start < time && x.Start + x.Duration > time - duration);
-            string NoteStarts = "";
-            foreach (MelodyNote Note in FilteredList)
+            float midiNoteSum = 0;
+            var filteredList = Notes.FindAll(x => x.Start < time && x.Start + x.Duration > time - duration);
+            var noteStarts = "";
+            foreach (var note in filteredList)
             {
-                NoteStarts += Note.Start.ToString() + ", ";
-                MidiNoteSum += Note.getMidiNote();
+                noteStarts += note.Start.ToString() + ", ";
+                midiNoteSum += note.GetMidiNote();
             }
-            if (NoteStarts != "")
-                Debug.Log("NoteStarts: " + NoteStarts);
-            return MidiNoteSum / FilteredList.Count;
+            if (noteStarts != "")
+                Debug.Log("NoteStarts: " + noteStarts);
+            return midiNoteSum / filteredList.Count;
         }
 	}
 }
