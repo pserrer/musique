@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using ParticlePlayground;
 using UnityEngine;
 
 public class ParticleTarget : MonoBehaviour {
@@ -6,11 +7,22 @@ public class ParticleTarget : MonoBehaviour {
     private ParticleSystem _particleSystem;
     private ParticleSystem.MainModule _mainModule;
 
+	public AudioSource AudioSource;
+
     // Use this for initialization
     void Start () {
         _particleSystem = GetComponent<ParticleSystem>();
         _mainModule = this._particleSystem.main;
-    }
+
+		if (AudioSource == null)
+		{
+			AudioSource = GetComponent<AudioSource>();
+			if (AudioSource == null)
+			{
+				AudioSource = gameObject.AddComponent<AudioSource>();
+			}
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,7 +43,11 @@ public class ParticleTarget : MonoBehaviour {
 	    set
 	    {
 		    _melody = value;
-		    this._mainModule.startLifetime = 1f;
+		    _mainModule.startLifetime = 1f;
+			Melody.Analyze();
+		    AudioSource.clip = Melody.Audio;
+		    AudioSource.loop = true;
+			AudioSource.Play();
 	    }
     }
 }

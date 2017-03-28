@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -19,7 +20,9 @@ namespace Assets.Scripts
 
 		public float Start { get; set; }
 
-        public void Analyze()
+		public AudioClip Audio { get; set; }
+
+		public void Analyze()
         {
 	        if (IsEmpty)
 	        {
@@ -44,17 +47,9 @@ namespace Assets.Scripts
 
         public float GetAverageMidiNoteLastSeconds(float duration, float time)
         {
-            float midiNoteSum = 0;
-            var filteredList = Notes.FindAll(x => x.Start < time && x.Start + x.Duration > time - duration);
-            var noteStarts = "";
-            foreach (var note in filteredList)
-            {
-                noteStarts += note.Start.ToString() + ", ";
-                midiNoteSum += note.GetMidiNote();
-            }
-            if (noteStarts != "")
-                Debug.Log("NoteStarts: " + noteStarts);
-            return midiNoteSum / filteredList.Count;
+	        var filteredList = Notes.FindAll(x => x.Start < time && x.Start + x.Duration > time - duration);
+	        var midiNoteSum = filteredList.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
+	        return midiNoteSum / filteredList.Count;
         }
 	}
 }
