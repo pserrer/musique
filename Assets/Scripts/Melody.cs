@@ -12,6 +12,8 @@ namespace Assets.Scripts
         public bool IsFinished = false;
         public float Duration;
         public float AverageMidiNote;
+        public float AverageMidiLeftHand;
+        public float AverageMidiRightHand;
 
 		public bool IsEmpty
 		{
@@ -51,5 +53,16 @@ namespace Assets.Scripts
 	        var midiNoteSum = filteredList.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
 	        return midiNoteSum / filteredList.Count;
         }
-	}
+
+        public float[] GetAverageMidiForEachHand(float duration, float time)
+        {
+            var filteredList = Notes.FindAll(x => x.Start < time && x.Start + x.Duration > time - duration);
+            var filteredListLeft = Notes.FindAll(x => x.GetMidiNote() <= 63);
+            var midiNoteSumLeft = filteredListLeft.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
+            var filteredListRight = Notes.FindAll(x => x.GetMidiNote() > 63);
+            var midiNoteSumRight = filteredListRight.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
+            float[] midiForEachHand = { midiNoteSumLeft / filteredList.Count, midiNoteSumRight / filteredList.Count };
+            return midiForEachHand;
+        }
+    }
 }
