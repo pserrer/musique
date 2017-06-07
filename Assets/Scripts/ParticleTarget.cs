@@ -9,7 +9,7 @@ public class ParticleTarget : MonoBehaviour {
     public int MaxMusicParticles = 2;
 
     //public MusicParticle MusicParticle = new EnchantedOrb();
-    public prefab : Enchanted Orb;
+    public MusicParticle mP;
             
 	public AudioSource AudioSource;
 
@@ -18,7 +18,7 @@ public class ParticleTarget : MonoBehaviour {
         this._musicParticles = new List<MusicParticle>();
         for (var i = 0; i < MaxMusicParticles; i++)
         {
-            var mParticle = Instantiate(prefab, this.transform.position, this.transform.rotation);
+            var mParticle = Instantiate(mP, this.transform.position, this.transform.rotation) as MusicParticle;
 
             this._musicParticles.Add(mParticle);
         }
@@ -30,7 +30,6 @@ public class ParticleTarget : MonoBehaviour {
 				this.AudioSource = gameObject.AddComponent<AudioSource>();
 			}
         }
-        this._musicParticles[0].setScatterSize(1.5f);
     }
 
     // Update is called once per frame
