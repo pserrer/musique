@@ -5,12 +5,16 @@ using UnityEngine;
 public class MusicParticle : MonoBehaviour
 {
     private PlaygroundParticlesC _particleSystem;
+    private Gradient _gradient;
     //private ParticleSystem.MainModule _mainModule;
 
     // Use this for initialization
     void Start ()
     {
         _particleSystem = GetComponent<PlaygroundParticlesC>();
+        _gradient = new Gradient();
+        GradientAlphaKey[] alphaKeys = { new GradientAlphaKey(1, 0f), new GradientAlphaKey(0, 1f) };
+        _gradient.SetKeys(_gradient.colorKeys, alphaKeys);
     }
 	
 	// Update is called once per frame
@@ -20,17 +24,15 @@ public class MusicParticle : MonoBehaviour
 
     public void setColor(Color color)
     {
-        Debug.Log("Color: " + color);
+        //Debug.Log("Color: " + color);
         _particleSystem.lifetimeColor = getGradient(color);
     }
 
     private Gradient getGradient(Color color)
     {
         GradientColorKey[] colorKeys = { new GradientColorKey(color, 0f), new GradientColorKey(color, 1f) };
-        GradientAlphaKey[] alphaKeys = { new GradientAlphaKey(1, 0f), new GradientAlphaKey(0, 1f) };
-        var gradient = new Gradient();
-        gradient.SetKeys(colorKeys, alphaKeys);
-        return gradient;
+        this._gradient.SetKeys(colorKeys, this._gradient.alphaKeys);
+        return this._gradient;
     }
 
     public void scaleScatterSize(float size)

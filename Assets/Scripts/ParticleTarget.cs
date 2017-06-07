@@ -40,7 +40,8 @@ public class ParticleTarget : MonoBehaviour {
         }
 
         var time = Time.time % _melody.Duration;
-        var averageMidiNoteForLastSeconds = _melody.GetAverageMidiForEachHand(1, time);
+        Debug.Log(time);
+        var averageMidiNoteForLastSeconds = _melody.GetAverageMidiForEachHand(0, time);
         var colorLeft = Color.HSVToRGB(averageMidiNoteForLastSeconds[0] / 127, 1, 1);
         var colorRight = Color.HSVToRGB(averageMidiNoteForLastSeconds[1] / 127, 1, 1);
         this._musicParticles[0].setColor(colorLeft);

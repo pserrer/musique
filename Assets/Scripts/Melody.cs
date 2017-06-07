@@ -57,13 +57,15 @@ namespace Assets.Scripts
         public float[] GetAverageMidiForEachHand(float duration, float time)
         {
             var filteredList = Notes.FindAll(x => x.Start < time && x.Start + x.Duration > time - duration);
-            var filteredListLeft = Notes.FindAll(x => x.GetMidiNote() <= 63);
+
+            var filteredListLeft = filteredList.FindAll(x => x.GetMidiNote() <= 63);
             var midiNoteSumLeft = filteredListLeft.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
-            var filteredListRight = Notes.FindAll(x => x.GetMidiNote() > 63);
+
+            var filteredListRight = filteredList.FindAll(x => x.GetMidiNote() > 63);
             var midiNoteSumRight = filteredListRight.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
-            //Debug.Log("filteredListLeft: " + String.Join("; ", filteredListLeft.Select(item => item.GetMidiNote().ToString()).ToArray()) + "\nfilteredListRight: " + String.Join("; ", filteredListRight.Select(item => item.GetMidiNote().ToString()).ToArray()));
+
             float[] midiForEachHand = { midiNoteSumLeft / filteredListLeft.Count, midiNoteSumRight / filteredListRight.Count };
-            //Debug.Log("AverageMidiLeft: " + midiForEachHand[0] + "\nAverageMidiRight: " + midiForEachHand[1]);
+
             return midiForEachHand;
         }
     }
