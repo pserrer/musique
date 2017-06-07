@@ -25,7 +25,7 @@ public class ParticleController : MonoBehaviour
 
 		if (ParticleParent == null)
 		{
-			ParticleParent = transform;
+			ParticleParent = this.transform;
 		}
 
 		for (var i = 0; i < MaxTargetCount; i++)

@@ -41,10 +41,10 @@ namespace Assets.Scripts
             {
                 sumOfNoteDurations += note.Duration;
                 sumOfMidiNotes += note.Duration * note.GetMidiNote();
-                Debug.Log("Note: " + note.GetMidiNote() + " von " + note.Start + " - " + (note.Start + note.Duration) + " mit Stärke: " + note.Velocity);
+                //Debug.Log("Note: " + note.GetMidiNote() + " von " + note.Start + " - " + (note.Start + note.Duration) + " mit Stärke: " + note.Velocity);
             }
             AverageMidiNote = sumOfMidiNotes / sumOfNoteDurations;
-            Debug.Log("AverageMidiNote: " + AverageMidiNote);
+            //Debug.Log("AverageMidiNote: " + AverageMidiNote);
         }
 
         public float GetAverageMidiNoteLastSeconds(float duration, float time)
@@ -61,7 +61,9 @@ namespace Assets.Scripts
             var midiNoteSumLeft = filteredListLeft.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
             var filteredListRight = Notes.FindAll(x => x.GetMidiNote() > 63);
             var midiNoteSumRight = filteredListRight.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
-            float[] midiForEachHand = { midiNoteSumLeft / filteredList.Count, midiNoteSumRight / filteredList.Count };
+            //Debug.Log("filteredListLeft: " + String.Join("; ", filteredListLeft.Select(item => item.GetMidiNote().ToString()).ToArray()) + "\nfilteredListRight: " + String.Join("; ", filteredListRight.Select(item => item.GetMidiNote().ToString()).ToArray()));
+            float[] midiForEachHand = { midiNoteSumLeft / filteredListLeft.Count, midiNoteSumRight / filteredListRight.Count };
+            //Debug.Log("AverageMidiLeft: " + midiForEachHand[0] + "\nAverageMidiRight: " + midiForEachHand[1]);
             return midiForEachHand;
         }
     }

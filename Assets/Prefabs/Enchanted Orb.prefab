@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4000010701190868}
   - component: {fileID: 198000013381320236}
   - component: {fileID: 199000011207890554}
-  - component: {fileID: 114000013258308028}
-  - component: {fileID: 114000011674231244}
+  - component: {fileID: 114540203223663210}
+  - component: {fileID: 114533387486301172}
   m_Layer: 0
   m_Name: Enchanted Orb
   m_TagString: Untagged
@@ -36,14 +36,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011664847806}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 50}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114000011674231244
+--- !u!114 &114533387486301172
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -51,10 +51,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011664847806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aef5783f609dcf45b0b4be34a34e4de, type: 3}
+  m_Script: {fileID: 11500000, guid: 582a7e78edcb9314a80df33190fa6760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000013258308028
+--- !u!114 &114540203223663210
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -91,7 +91,7 @@ MonoBehaviour:
   applySourceScatter: 1
   sourceScatterMin: {x: 2, y: 0, z: 0}
   sourceScatterMax: {x: 2, y: 0, z: 0}
-  scatterScale: {x: 1, y: 1, z: 1}
+  scatterScale: {x: 1, y: 1.5, z: 1.5}
   sourceScatterMethod: 2
   sorting: 3
   lifetimeSorting:
@@ -145,7 +145,7 @@ MonoBehaviour:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   applyParticleArraySize: 0
   particleArraySize:
     serializedVersion: 2
@@ -164,7 +164,7 @@ MonoBehaviour:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   transitionBackToSource: 0
   transitionBackToSourceAmount:
     serializedVersion: 2
@@ -12102,7 +12102,7 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    unfolded: 0
+    unfolded: 1
   treatAsOneTransform: 0
   otherParticleSource: {fileID: 0}
   otherParticleSourceMethod: 0
@@ -12766,7 +12766,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
   ShapeModule:
-    serializedVersion: 2
+    serializedVersion: 3
     enabled: 0
     type: 4
     radius: 1
@@ -12782,10 +12782,12 @@ ParticleSystem:
     m_SkinnedMeshRenderer: {fileID: 0}
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
+    m_MeshScale: 1
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
     alignToDirection: 0
-    randomDirection: 0
+    randomDirectionAmount: 0
+    sphericalDirectionAmount: 0
   EmissionModule:
     enabled: 0
     serializedVersion: 3
@@ -12867,7 +12869,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
       minMaxState: 0
-    m_CombineMode: 0
     cnt0: 30
     cnt1: 30
     cnt2: 30
@@ -14896,6 +14897,7 @@ ParticleSystem:
       minMaxState: 0
 --- !u!199 &199000011207890554
 ParticleSystemRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -14919,7 +14921,7 @@ ParticleSystemRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 1
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -14937,6 +14939,7 @@ ParticleSystemRenderer:
   m_NormalDirection: 1
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
+  m_UseCustomVertexStreams: 0
   m_VertexStreamMask: 27
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
