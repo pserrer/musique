@@ -93,8 +93,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxMusicParticles: 2
-  MusicParticle: {fileID: 114533387486301172, guid: 6c1e2225099c19c41800e4360b89f462,
-    type: 2}
+  MP: {fileID: 114533387486301172, guid: 6c1e2225099c19c41800e4360b89f462, type: 2}
+  Pillar: {fileID: 100004, guid: 2abd1f709be7c0a498fbf6ca93bda76e, type: 3}
   AudioSource: {fileID: 0}
 --- !u!135 &135000013503871458
 SphereCollider:

@@ -6,7 +6,6 @@ public class ParticleController : MonoBehaviour
 {
 
 	public Vector3 Center;
-	public Vector3 ParticleOffset;
 
     public ParticleTarget ParticleTarget;
 	public Transform ParticleParent;
@@ -31,9 +30,9 @@ public class ParticleController : MonoBehaviour
 		for (var i = 0; i < MaxTargetCount; i++)
 		{
 			var angle = ((float)i)/MaxTargetCount*360;
-			var position = Center + Quaternion.AngleAxis(angle, Vector3.up) * (Vector3.forward*Radius) + ParticleOffset;
-			var target = Instantiate(ParticleTarget, position, Quaternion.AngleAxis(angle, Vector3.up), ParticleParent);
-			_targets.Add(target);
+			var position = Center + Quaternion.AngleAxis(angle, Vector3.up) * (Vector3.forward*Radius);
+            var target = Instantiate(ParticleTarget, position, Quaternion.AngleAxis(angle, Vector3.up), ParticleParent);
+            _targets.Add(target);
 		}
 	}
 	

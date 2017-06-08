@@ -7,18 +7,22 @@ public class ParticleTarget : MonoBehaviour {
     private Melody _melody;
     private List<MusicParticle> _musicParticles;
     public int MaxMusicParticles = 2;
+    public Vector3 ParticleOffset;
 
     //public MusicParticle MusicParticle = new EnchantedOrb();
-    public MusicParticle mP;
-            
-	public AudioSource AudioSource;
+    public MusicParticle MP;
+    public GameObject Pillar;
+
+    public AudioSource AudioSource;
 
     // Use this for initialization
     void Start () {
         this._musicParticles = new List<MusicParticle>();
+        this.ParticleOffset = new Vector3(0, 11, 0);
+        var pillar = Instantiate(this.Pillar, this.transform.position, this.transform.rotation) as GameObject;
         for (var i = 0; i < MaxMusicParticles; i++)
         {
-            var mParticle = Instantiate(mP, this.transform.position, this.transform.rotation) as MusicParticle;
+            var mParticle = Instantiate(this.MP, this.transform.position + this.ParticleOffset, this.transform.rotation) as MusicParticle;
 
             this._musicParticles.Add(mParticle);
         }
@@ -40,10 +44,11 @@ public class ParticleTarget : MonoBehaviour {
         }
 
         var time = Time.time % _melody.Duration;
-        Debug.Log(time);
-        var averageMidiNoteForLastSeconds = _melody.GetAverageMidiForEachHand(0, time);
+        var averageMidiNoteForLastSeconds = _melody.GetAverageMidiForEachHand(1, time);
         var colorLeft = Color.HSVToRGB(averageMidiNoteForLastSeconds[0] / 127, 1, 1);
         var colorRight = Color.HSVToRGB(averageMidiNoteForLastSeconds[1] / 127, 1, 1);
+        //var colorLeft = Color.HSVToRGB(averageMidiNoteForLastSeconds[0] / 64, 1, 1);
+        //var colorRight = Color.HSVToRGB(averageMidiNoteForLastSeconds[1]-63 / 64, 1, 1);
         this._musicParticles[0].setColor(colorLeft);
         this._musicParticles[1].setColor(colorRight);
     }
@@ -58,6 +63,7 @@ public class ParticleTarget : MonoBehaviour {
 		    AudioSource.clip = Melody.Audio;
 		    AudioSource.loop = true;
 			AudioSource.Play();
-	    }
+            this._musicParticles[1].scaleScatterSize(0.8f);
+        }
     }
 }
