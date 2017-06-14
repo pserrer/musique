@@ -12,8 +12,8 @@ namespace Assets.Scripts
         public bool IsFinished = false;
         public float Duration;
         public float AverageMidiNote;
-        public float AverageMidiLeftHand;
-        public float AverageMidiRightHand;
+        public int AverageOctaveMidiLeftHand;
+        public int AverageOctaveMidiRightHand;
 
 		public bool IsEmpty
 		{
@@ -31,9 +31,26 @@ namespace Assets.Scripts
 		        return;
 	        }
 
-            var lastNote = Notes[Notes.Count-1];
-	        Duration = lastNote.Start + lastNote.Duration;
+            var lastNote = this.Notes[this.Notes.Count - 1];
+            this.Duration = lastNote.Start + lastNote.Duration;
             Debug.Log("Dauer der Melodie : " + Duration);
+
+            var keysPerOctave = 12;
+            var averages = GetAverageForEachHand(this.Duration, this.Duration, "midi");
+            if (averages[0] != -1f)
+            {
+                this.AverageOctaveMidiLeftHand = (int)(averages[0] / keysPerOctave);
+            } else
+            {
+                this.AverageOctaveMidiLeftHand = -1;
+            }
+            if (averages[1] != -1f)
+            {
+                this.AverageOctaveMidiRightHand = (int)(averages[1] / keysPerOctave);
+            } else
+            {
+                this.AverageOctaveMidiRightHand = -1;
+            }
 
             var sumOfMidiNotes = 0f;
             var sumOfNoteDurations = 0f;
@@ -47,26 +64,44 @@ namespace Assets.Scripts
             //Debug.Log("AverageMidiNote: " + AverageMidiNote);
         }
 
-        public float GetAverageMidiNoteLastSeconds(float duration, float time)
+        public float GetAverageMidiNoteLastSeconds(float duration, float time, string mode)
         {
 	        var filteredList = Notes.FindAll(x => x.Start < time && x.Start + x.Duration > time - duration);
-	        var midiNoteSum = filteredList.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
-	        return midiNoteSum / filteredList.Count;
+            return this.GetAverage(filteredList, mode);
         }
 
-        public float[] GetAverageMidiForEachHand(float duration, float time)
+        public float[] GetAverageForEachHand(float duration, float time, string mode)
         {
+            float[] averageForEachHand = {0f , 0f};
             var filteredList = Notes.FindAll(x => x.Start < time && x.Start + x.Duration > time - duration);
+            
+            var filteredListLeft = filteredList.FindAll(x => x.GetMidiNote() <= 30);
+            var filteredListRight = filteredList.FindAll(x => x.GetMidiNote() > 30);
+            
+            averageForEachHand[0] = this.GetAverage(filteredListLeft, mode);
+            averageForEachHand[1] = this.GetAverage(filteredListRight, mode);
 
-            var filteredListLeft = filteredList.FindAll(x => x.GetMidiNote() <= 63);
-            var midiNoteSumLeft = filteredListLeft.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
+            return averageForEachHand;
+        }
 
-            var filteredListRight = filteredList.FindAll(x => x.GetMidiNote() > 63);
-            var midiNoteSumRight = filteredListRight.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
-
-            float[] midiForEachHand = { midiNoteSumLeft / filteredListLeft.Count, midiNoteSumRight / filteredListRight.Count };
-
-            return midiForEachHand;
+        private float GetAverage(List<MelodyNote> Notes, string mode)
+        {
+            if (Notes.Count != 0)
+            {
+                var sum = 0f;
+                if (mode.Equals("midi"))
+                {
+                    sum = Notes.Aggregate<MelodyNote, float>(0, (current, note) => current + note.GetMidiNote());
+                } else if (mode.Equals("velocity"))
+                {
+                    sum = Notes.Aggregate<MelodyNote, float>(0, (current, note) => current + note.Velocity);
+                    return sum;
+                }
+                return sum / Notes.Count;
+            } else
+            {
+                return -1f;
+            }
         }
     }
 }

@@ -477,8 +477,8 @@ MonoBehaviour:
     IsFinished: 0
     Duration: 0
     AverageMidiNote: 0
-    AverageMidiLeftHand: 0
-    AverageMidiRightHand: 0
+    AverageOctaveMidiLeftHand: 0
+    AverageOctaveMidiRightHand: 0
   SilenceBetweenMelodies: 4
   MaxTimeBetweenNotesForChord: 0.05
   ParticleController: {fileID: 475788503}

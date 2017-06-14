@@ -6,12 +6,15 @@ public class MusicParticle : MonoBehaviour
 {
     private PlaygroundParticlesC _particleSystem;
     private Gradient _gradient;
+    private bool active;
     //private ParticleSystem.MainModule _mainModule;
 
     // Use this for initialization
     void Start ()
     {
         _particleSystem = GetComponent<PlaygroundParticlesC>();
+        _particleSystem.emit = false;
+        this.active = false;
         _gradient = new Gradient();
         GradientAlphaKey[] alphaKeys = { new GradientAlphaKey(1, 0f), new GradientAlphaKey(0, 1f) };
         _gradient.SetKeys(_gradient.colorKeys, alphaKeys);
@@ -22,20 +25,32 @@ public class MusicParticle : MonoBehaviour
         
     }
 
-    public void setColor(Color color)
+    public bool ToggleActivate()
     {
-        //Debug.Log("Color: " + color);
-        _particleSystem.lifetimeColor = getGradient(color);
+        _particleSystem.emit = !_particleSystem.emit;
+        this.active = !this.active;
+        return this.active;
     }
 
-    private Gradient getGradient(Color color)
+    public void SetColor(Color color)
+    {
+        //Debug.Log("Color: " + color);
+        _particleSystem.lifetimeColor = GetGradient(color);
+    }
+
+    public void SetParticleCount(int count)
+    {
+        _particleSystem.particleCount = count;
+    }
+
+    private Gradient GetGradient(Color color)
     {
         GradientColorKey[] colorKeys = { new GradientColorKey(color, 0f), new GradientColorKey(color, 1f) };
         this._gradient.SetKeys(colorKeys, this._gradient.alphaKeys);
         return this._gradient;
     }
 
-    public void scaleScatterSize(float size)
+    public void ScaleScatterSize(float size)
     {
         var x = this._particleSystem.scatterScale.x;
         var y = this._particleSystem.scatterScale.y;

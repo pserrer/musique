@@ -11,8 +11,8 @@ public class ParticleController : MonoBehaviour
 	public Transform ParticleParent;
 
     private int _targetCount;
-	public int MaxTargetCount = 5;
-	public float Radius = 20f;
+	public int MaxTargetCount;
+	public float Radius;
 
 	private List<ParticleTarget> _targets;
 	public List<Melody> Melodies;
@@ -44,7 +44,8 @@ public class ParticleController : MonoBehaviour
     public void AddMelody(Melody melody)
     {
         melody.Analyze();
-        _targets[_targetCount++].Melody = melody;
+
+        _targets[_targetCount++].SetMelody(melody);
         _targetCount %= MaxTargetCount;
 		Melodies.Add(melody);
     }

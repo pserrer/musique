@@ -5,8 +5,9 @@ namespace Assets.Scripts
 {
 	[Serializable]
 	public class MelodyNote
-	{
-		public const int DefaultOctave = 4;
+    {
+        public const int DefaultOctave = 0;
+        public const int DefaultVelocity = 1;
         public char Letter { get; set; }
         public int Accidental { get; set; }
         public int Octave { get; set; }
@@ -15,11 +16,12 @@ namespace Assets.Scripts
         public float Velocity { get; set; }
         public int MidiNote;
 
-        public MelodyNote(char letter, int accidental = 0, int octave = DefaultOctave)
+        public MelodyNote(char letter, int accidental = 0, int octave = DefaultOctave, float velocity = DefaultVelocity)
 		{
 			this.Letter = letter;
 			this.Accidental = accidental;
 			this.Octave = octave;
+            this.Velocity = velocity;
 		}
 
 		public MelodyNote() { }
@@ -133,7 +135,7 @@ namespace Assets.Scripts
 				case KeyCode.U:
 					return new MelodyNote('A', 1);
 				case KeyCode.J:
-					return new MelodyNote('B', 0, 9);
+					return new MelodyNote('B', 0, 4);
 			}
 
 			return null;
