@@ -88,7 +88,7 @@ Material:
       second: 0.5
     - first:
         name: _DetailNormalMapScale
-      second: 0.3
+      second: 0.63
     - first:
         name: _DstBlend
       second: 0
