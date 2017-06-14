@@ -98,7 +98,7 @@ MonoBehaviour:
   - {fileID: 114533387486301172, guid: 6c1e2225099c19c41800e4360b89f462, type: 2}
   - {fileID: 114007025937812716, guid: cefd9aa4b1f90fe479baa1dc3d062961, type: 2}
   - {fileID: 114911426298409824, guid: b7c74f96cefbaa84e8ff5355fcebc052, type: 2}
-  - {fileID: 114856122094235376, guid: 30ffa64f894487945b55fb7bf85831c1, type: 2}
+  - {fileID: 114626222653510366, guid: 407c65f186ca8644d9948fd36184212d, type: 2}
   - {fileID: 114364624157772326, guid: 557563fa171288b4f972d5c8f808dba6, type: 2}
   Pillar: {fileID: 100004, guid: 2abd1f709be7c0a498fbf6ca93bda76e, type: 3}
   AudioSource: {fileID: 0}
