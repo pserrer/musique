@@ -22,9 +22,9 @@ public class ParticleTarget : MonoBehaviour
     void Start()
     {
         this._musicParticles = new List<MusicParticle>();
-        this.ParticleOffset = new Vector3(0, 11, 0);
+        this.ParticleOffset = new Vector3(0, 7, 0);
         var pillar = Instantiate(this.Pillar, this.transform.position, this.transform.rotation) as GameObject;
-
+        pillar.transform.localScale = new Vector3(1f, 0.5f, 1f);
         for (var i = 0; i < MaxMusicParticles; i++)
         {
             var mParticle = Instantiate(this.MP[i], this.transform.position + this.ParticleOffset, this.transform.rotation) as MusicParticle;
