@@ -57,14 +57,28 @@ public class ParticleTarget : MonoBehaviour
         if (this._melody.AverageOctaveMidiLeftHand != -1)
         {
             var leftHandParticle = this._musicParticles[this._melody.AverageOctaveMidiLeftHand];
-            Debug.Log("colorLeft: " + colorLeft);
-            leftHandParticle.SetColor(colorLeft);
+            //Debug.Log("colorLeft: " + colorLeft);
+            if (!colorLeft.Equals(Color.black))
+            {
+                leftHandParticle.SetColor(colorLeft);
+            }
+            if (averageVelocityForNow[0] > 0)
+            {
+                leftHandParticle.Scale(averageVelocityForNow[0] + 0.01f);
+            }
         }
         if (this._melody.AverageOctaveMidiRightHand != -1)
         {
             var rightHandParticle = this._musicParticles[this._melody.AverageOctaveMidiRightHand];
-            Debug.Log("colorRight: " + colorRight);
-            rightHandParticle.SetColor(colorRight);
+            //Debug.Log("colorRight: " + colorRight);
+            if (!colorRight.Equals(Color.black))
+            {
+                rightHandParticle.SetColor(colorRight);
+            }
+            if (averageVelocityForNow[1] > 0)
+            {
+                rightHandParticle.Scale(averageVelocityForNow[1] + 0.01f);
+            }
         }
     }
 
@@ -80,9 +94,6 @@ public class ParticleTarget : MonoBehaviour
         this.AudioSource.clip = this._melody.Audio;
         this.AudioSource.loop = true;
         this.AudioSource.Play();
-
-
-        //this._musicParticles[0].scaleScatterSize(2f);
     }
 
     private void ToggleActiveParticles()
