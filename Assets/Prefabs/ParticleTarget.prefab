@@ -73,6 +73,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33000013179529348
 MeshFilter:
@@ -96,8 +97,8 @@ MonoBehaviour:
   ParticleOffset: {x: 0, y: 0, z: 0}
   MP:
   - {fileID: 114007025937812716, guid: cefd9aa4b1f90fe479baa1dc3d062961, type: 2}
+  - {fileID: 114927076690847218, guid: ea00ad2816a06c04fa0cebef43c2fd20, type: 2}
   - {fileID: 114533387486301172, guid: 6c1e2225099c19c41800e4360b89f462, type: 2}
-  - {fileID: 114911426298409824, guid: b7c74f96cefbaa84e8ff5355fcebc052, type: 2}
   - {fileID: 114364624157772326, guid: 557563fa171288b4f972d5c8f808dba6, type: 2}
   - {fileID: 114911426298409824, guid: b7c74f96cefbaa84e8ff5355fcebc052, type: 2}
   Pillar: {fileID: 100004, guid: 2abd1f709be7c0a498fbf6ca93bda76e, type: 3}

@@ -22,9 +22,9 @@ public class ParticleTarget : MonoBehaviour
     void Start()
     {
         this._musicParticles = new List<MusicParticle>();
-        this.ParticleOffset = new Vector3(0, 7, 0);
+        this.ParticleOffset = new Vector3(0, 1.35f, 0);
         var pillar = Instantiate(this.Pillar, this.transform.position, this.transform.rotation) as GameObject;
-        pillar.transform.localScale = new Vector3(1f, 0.5f, 1f);
+        pillar.transform.localScale = new Vector3(0.2f, 0.1f, 0.2f);
         for (var i = 0; i < MaxMusicParticles; i++)
         {
             var mParticle = Instantiate(this.MP[i], this.transform.position + this.ParticleOffset, this.transform.rotation) as MusicParticle;
@@ -52,8 +52,8 @@ public class ParticleTarget : MonoBehaviour
         var time = Time.time % _melody.Duration;
         var averageMidiNoteForNow = _melody.GetAverageForEachHand(0f, time, "midi");
         var averageVelocityForNow = _melody.GetAverageForEachHand(0f, time, "velocity");
-        var colorLeft = Color.HSVToRGB(averageMidiNoteForNow[0] / 60, 1f, Clamp(averageVelocityForNow[0] / 5f, 1f, 0f));
-        var colorRight = Color.HSVToRGB(averageMidiNoteForNow[1] / 60, 1f, Clamp(averageVelocityForNow[1] / 5f, 1f, 0f));
+        var colorLeft = Color.HSVToRGB(averageMidiNoteForNow[0] / 61, 1f, Clamp(averageVelocityForNow[0] / 5f, 1f, 0f));
+        var colorRight = Color.HSVToRGB(averageMidiNoteForNow[1] / 61, 1f, Clamp(averageVelocityForNow[1] / 5f, 1f, 0f));
         if (this._melody.AverageOctaveMidiLeftHand != -1)
         {
             var leftHandParticle = this._musicParticles[this._melody.AverageOctaveMidiLeftHand];

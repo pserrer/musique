@@ -13,13 +13,15 @@ public class InputController : MonoBehaviour
 
 	public Melody CurrentMelody;
 
-	public float SilenceBetweenMelodies = 8; // Seconds
+	public float SilenceBetweenMelodies = 5f; // Seconds
 	public float MaxTimeBetweenNotesForChord = 0.05f;
 
 	public ParticleController ParticleController;
 
 	public string MicrophoneDevice = string.Empty;
 	public int MicrophoneFreq = 48000;
+
+	public int MinNoteValue = 36;
 
 	// Use this for initialization
 	void Start()
@@ -41,14 +43,15 @@ public class InputController : MonoBehaviour
 
 		MidiMaster.noteOnDelegate += (channel, midiNote, velocity) =>
 		{
-			var note = MelodyNote.FromMidiNote(midiNote);
+			var note = MelodyNote.FromMidiNote(midiNote - MinNoteValue);
 			note.Velocity = velocity;
 			NoteDown(note);
 		};
 
 		MidiMaster.noteOffDelegate += (channel, note) =>
 		{
-			var midiNote = MelodyNote.FromMidiNote(note);
+			var midiNote = MelodyNote.FromMidiNote(note - MinNoteValue);
+
 			NoteUp(midiNote);
 		};
 
@@ -75,25 +78,22 @@ public class InputController : MonoBehaviour
 			// Keyboard Up
 			if (Input.GetKeyUp(keyCode))
 			{
-				MelodyNote activeNote;
-                _activeNotes.TryGetValue(note.GetHashCode(), out activeNote);
-                if (activeNote != null)
-				{
-					NoteUp(activeNote);
-				}
+				NoteUp(note);
 			}
 		}
 	}
 
 	private void NoteUp(MelodyNote note)
 	{
-		if (!_activeNotes.ContainsKey(note.GetHashCode()))
+		MelodyNote activeNote;
+		_activeNotes.TryGetValue(note.GetHashCode(), out activeNote);
+		if (activeNote == null)
 		{
 			return;
 		}
-
-		note.Duration = Time.time - note.Start - CurrentMelody.Start;
-        _activeNotes.Remove(note.GetHashCode());
+			
+		activeNote.Duration = Time.time - activeNote.Start - CurrentMelody.Start;
+		_activeNotes.Remove(activeNote.GetHashCode());
         Invoke("StopMelody", SilenceBetweenMelodies);
     }
 
@@ -110,9 +110,10 @@ public class InputController : MonoBehaviour
 				CurrentMelody.Audio = Microphone.Start(MicrophoneDevice, true, 600, MicrophoneFreq);
 			}
 
-            if (!CurrentMelody.IsEmpty)
-                note.Start = Time.time - CurrentMelody.Start;
-            else
+			if (!CurrentMelody.IsEmpty) {
+				note.Start = Time.time - CurrentMelody.Start;
+			}
+			else
             {
                 note.Start = 0;
                 CurrentMelody.Start = Time.time;
@@ -135,7 +136,6 @@ public class InputController : MonoBehaviour
 		Debug.Log("Finished Melody");
 		if (!CurrentMelody.IsEmpty)
 		{
-			Debug.Log("End Microphone: " + Microphone.GetPosition(MicrophoneDevice));
 			var pos = Microphone.GetPosition(MicrophoneDevice);
 			Microphone.End(MicrophoneDevice);
 

@@ -32,21 +32,24 @@ namespace Assets.Scripts
 	        }
 
             var lastNote = this.Notes[this.Notes.Count - 1];
-            this.Duration = lastNote.Start + lastNote.Duration;
+            this.Duration = lastNote.Start + lastNote.Duration + 5.0f;
             Debug.Log("Dauer der Melodie : " + Duration);
+			foreach (var note in Notes) {
+				Debug.Log (note.Letter + ":" + note.Octave + ":" + note.GetMidiNote());
+			}
 
             var keysPerOctave = 12;
             var averages = GetAverageForEachHand(this.Duration, this.Duration, "midi");
             if (averages[0] != -1f)
             {
-                this.AverageOctaveMidiLeftHand = (int)(averages[0] / keysPerOctave);
+				this.AverageOctaveMidiLeftHand = Math.Min((int)(averages[0] / keysPerOctave),4);
             } else
             {
                 this.AverageOctaveMidiLeftHand = -1;
             }
             if (averages[1] != -1f)
             {
-                this.AverageOctaveMidiRightHand = (int)(averages[1] / keysPerOctave);
+				this.AverageOctaveMidiRightHand = Math.Min((int)(averages[1] / keysPerOctave),4);
             } else
             {
                 this.AverageOctaveMidiRightHand = -1;
@@ -58,7 +61,8 @@ namespace Assets.Scripts
             {
                 sumOfNoteDurations += note.Duration;
                 sumOfMidiNotes += note.Duration * note.GetMidiNote();
-                //Debug.Log("Note: " + note.GetMidiNote() + " von " + note.Start + " - " + (note.Start + note.Duration) + " mit Stärke: " + note.Velocity);
+                Debug.Log("Note: " + note.GetMidiNote() + " von " + note.Start + " - " + (note.Start + note.Duration) + " mit Stärke: " + note.Velocity);
+
             }
             AverageMidiNote = sumOfMidiNotes / sumOfNoteDurations;
             //Debug.Log("AverageMidiNote: " + AverageMidiNote);

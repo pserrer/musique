@@ -17,11 +17,12 @@ public class MusicParticle : MonoBehaviour
     void Start()
     {
         this._particleSystem = GetComponent<PlaygroundParticlesC>();
+		this._particleSystem.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         this.trailScript = GetComponent<PlaygroundTrails>() as PlaygroundTrails;
         this._particleSystem.emit = false;
         this._active = false;
-        this._scatterSize = 1f;
-        this._particleScale = 1f;
+        this._scatterSize = 0.2f;
+        this._particleScale = 0.2f;
         this.Scale(_scatterSize);
         this._gradient = new Gradient();
         this._gradient.SetKeys(_gradient.colorKeys, _alphaKeys);
@@ -68,13 +69,13 @@ public class MusicParticle : MonoBehaviour
         if (this._particleSystem.applySourceScatter)
         {
             this._scatterSize = this._scatterSize * size;
-            this._scatterSize = Mathf.Clamp(this._scatterSize, 0.7f, 1.2f);
+			this._scatterSize = Mathf.Clamp(this._scatterSize, 0.1f, 0.2f); //0.7f, 1.2f
             this._particleSystem.scatterScale = new Vector3(this._scatterSize, this._scatterSize, this._scatterSize);
         }
         else
         {
             this._particleScale = this._particleSystem.scale * size;
-            this._particleScale = Mathf.Clamp(this._particleScale, 0.7f, 1.2f);
+            this._particleScale = Mathf.Clamp(this._particleScale, 0.1f, 0.2f);
             this._particleSystem.scale = this._particleScale;
         }
     }
@@ -84,13 +85,13 @@ public class MusicParticle : MonoBehaviour
         if (this._particleSystem.applySourceScatter)
         {
             this._scatterSize = this._scatterSize * 0.993f;
-            this._scatterSize = Mathf.Clamp(this._scatterSize, 0.5f, 1.2f);
+			this._scatterSize = Mathf.Clamp(this._scatterSize, 0.1f, 0.2f); // 0.5f, 1.2f
             this._particleSystem.scatterScale = new Vector3(this._scatterSize, this._scatterSize, this._scatterSize);
         }
         else
         {
             this._particleScale = this._particleSystem.scale * 0.993f;
-            this._particleScale = Mathf.Clamp(this._particleScale, 0.5f, 1.2f);
+			this._particleScale = Mathf.Clamp(this._particleScale, 0.1f, 0.2f);
             this._particleSystem.scale = this._particleScale;
         }
     }
